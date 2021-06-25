@@ -1,0 +1,16 @@
+System
+Application
+Security
+Powershell
+Windows Powershell
+Microsoft-Windows-PowerShell/Admin
+Microsoft-Windows-PowerShell/Operational
+Microsoft-Windows-Windows Defender/Operational
+Symantec Endpoint Protection Client
+Microsoft-Windows-RemoteApp and Desktop Connections/Operational
+Microsoft-Windows-RemoteDesktopServices-RdpCoreTS/Operational
+Microsoft-Windows-RemoteDesktopServices-SessionServices/Operational
+Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational
+Microsoft-Windows-TerminalServices-LocalSessionManager/Operational
+Microsoft-Windows-WMI-Activity/Operational
+MSExchange Management

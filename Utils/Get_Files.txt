@@ -1,0 +1,51 @@
+Malware %SystemRoot%\Cursors\*.exe
+Malware %SystemRoot%\Cursors\*.dll
+WMI %SystemRoot%\system32\wbem\Repository\FS\OBJECTS.DATA
+WMI %SystemRoot%\system32\wbem\Repository\OBJECTS.DATA
+Defender %temp%\DiagOutputDir\MPSupportFiles.cab
+Defender %ProgramData%\Microsoft\Windows Defender\Support\MpSupportFiles.cab
+MRT %systemroot%\debug\mrt.log
+MRT %systemroot%\debug\msert.log
+Avast C:\Documents And Settings\All Users\Application Data\Avast Software\Avast\Log\*.*
+Avast %ProgramData%\Avast Software\Avast\Log\*.*
+Avast C:\users\%USERNAME%\Avast Software\Avast\Log\*.*
+Avast %ProgramData%\Avast Software\Avast\Chest\index.xml
+AVG %ProgramData%\AVG\Antivirus\chest\*.*
+AVG %ProgramData%\AVG\Antivirus\report\*.*
+Avira %ProgramData%\Avira\Antivirus\LOGFILES\*.*
+Bitdefender %ProgramData%\Bitdefender\Endpoint Security\Logs\*.*
+ESET C:\Documents and Settings\All Users\Application Data\ESET\ESET NOD32 Antivirus\Logs\*.*
+ESET %ProgramData%\ESET\ESET NOD32 Antivirus\Logs\*.*
+F-Secure %ProgramData%\F-Secure\Log\*.*
+F-Secure C:\users\%USERNAME%\AppData\Local\F-Secure\Log\*.*
+F-Secure %ProgramData%\F-Secure\Antivirus\ScheduledScanReports\*.*
+HitmanPro %ProgramData%\HitmanPro\Logs\*.*
+HitmanPro %ProgramData%\HitmanPro.Alert\Logs\*.*
+HitmanPro %ProgramData%\HitmanPro.Alert\excalibur.db
+Kaspersky %SOYUZAPPDATA%\Quarantine\*.*
+Kaspersky %ALLUSERSPROFILE%\Kaspersky Lab\Endpoint Agent\4.0\Quarantine\*.*
+MalwareBytes %ProgramData%\Malwarebytes\Malwarebytes Anti-Malware\Logs\mbam-log-*.xml
+MalwareBytes %ProgramData%\Malwarebytes\MBAMService\logs\mbamservice.log
+MalwareBytes C:\users\%USERNAME%\AppData\Roaming\Malwarebytes\Malwarebytes Anti-Malware\Logs*.*
+McAfee C:\Users\All Users\Application Data\McAfee\DesktopProtection\*.*
+McAfee %ProgramData%\McAfee\DesktopProtection\*.*
+McAfee %ProgramData%\McAfee\Endpoint Security\Logs\*.*
+McAfee %ProgramData%\McAfee\Endpoint Security\Logs_Old\*.*
+McAfee %ProgramData%\Mcafee\VirusScan\*.*
+SentinelOne %ProgramData%\sentinel\logs\*.*
+Sophos C:\Documents and Settings\All Users\Application Data\Sophos\Sophos\Logs\*.*
+Sophos %ProgramData%\Sophos\Sophos\Logs\*.*
+Symantec C:\Documents and Settings\All Users\Application Data\Symantec\Symantec Endpoint Protection\Logs\AV\*.*
+Symantec %ProgramData%\Symantec\Symantec Endpoint Protection\Data\Logs\*.*
+Symantec C:\users\%USERNAME%\AppData\Local\Symantec\Symantec Endpoint Protection\Logs\*.*
+Symantec C:\Documents and Settings\All Users\Application Data\Symantec\Symantec Endpoint Protection\Quarantine\*.*
+Symantec %ProgramData%\Symantec\Symantec Endpoint Protection\Data\Quarantine\*.*
+Trend %ProgramData%\Trend Micro\*.*
+Trend %ProgramFiles%\Trend Micro\Security Agent\Report\*.log
+Trend %ProgramFiles%\Trend Micro\Security Agent\ConnLog\*.log
+Trend %ProgramFiles%\Trend Micro\AMSP\report\*.log
+VIPRE %ProgramData%\VIPRE Business Agent\Logs\*.*
+VIPRE C:\users\%USERNAME%\AppData\Roaming\VIPRE Business\*.*
+VIPRE C:\users\%USERNAME%\AppData\Roaming\GFI Software\AntiMalware\Logs\*.*
+VIPRE C:\users\%USERNAME%\AppData\Roaming\Sunbelt Software\AntiMalware\Logs\*.*
+Webroot %ProgramData%\WRData\WRLog.log
