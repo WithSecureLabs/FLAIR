@@ -5,6 +5,10 @@ REM
 REM ## Author      | Alan Melia (F-Secure)
 REM 
 REM ## Description | Perform collection of transient data for later analysis
+REM                  Creates a cab file of the necessary files
+REM                  Creates a self-extracting EXE
+REM ## Note        | AV on many systems can reject the resulting file 
+REM                  as the signature will not match that of extrac32.exe
 REM 
 for /f "tokens=1-4" %%a in ( Versions.md ) do if "%%b" NEQ "|" SET V_BLD=%%b
 echo FLAIR_%V_BLD%
