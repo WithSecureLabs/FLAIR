@@ -1,5 +1,7 @@
 FLAIR/
 Research/
+Release/
 *.inf
 *.rpt
+*.exe
 ~$*.*
