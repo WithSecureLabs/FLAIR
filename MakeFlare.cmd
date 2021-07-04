@@ -9,7 +9,7 @@ REM                  Creates a cab file of the necessary files
 REM                  Creates a self-extracting EXE
 REM ## Note        | AV on many systems can reject the resulting file 
 REM                  as the signature will not match that of extrac32.exe
-REM                     
+REM                     Commented out for now
 IF NOT EXIST "Release" MD "Release"
 for /f "tokens=1-4" %%a in ( Versions.md ) do if "%%b" NEQ "|" SET V_BLD=%%b
 echo FLAIR_%V_BLD%
@@ -48,5 +48,4 @@ REM Make the CAB
 REM =====================================================================================
 makecab.exe /f "Release\FLAIR_%V_BLD%.ddf"
 
-REM copy /b "%windir%\system32\extrac32.exe"+"FLAIR_%V_BLD%.cab" "FLAIR_%V_BLD%.exe"
-REM del /q /f "FLAIR_%V_BLD%.cab"
+REM copy /b "%windir%\system32\extrac32.exe"+"Release\FLAIR_%V_BLD%.cab" "Release\FLAIR_%V_BLD%.exe"

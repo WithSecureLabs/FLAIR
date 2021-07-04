@@ -24,7 +24,7 @@ Examples of the OS version as recovered from the VER command and stored in %V_OS
 | 62   | Win8    | Microsoft Windows [Version 6.2.9200]             |                                                 |
 | 63   | 2012 R2 | Microsoft Windows [Version 6.3.9600]             |                                                 |
 | 100  | 2016    | Microsoft Windows [Version 10.0.14393]           |                                                 |
-| 100  | Win10   | Microsoft Windows [Version 10.0.18363.1621] etc  |                                                 |
+| 100  | Win10   | Microsoft Windows [Version 10.0.19043.1081] etc  |  OK                                             |
 | 100  | 2019    | Microsoft Windows [Version 10.0.17763.1457] etc  |                                                 |
 | 100  | 2004    | Microsoft Windows [Version 10.0.19041.685] etc   |                                                 |
 
@@ -50,7 +50,7 @@ Examples of the OS version as recovered from the VER command and stored in %V_OS
 |      |            |         | Relocated file collection to allow for ExchangePath use                               |
 |      |            |         | Added files identified from Microsoft's latest list to the collection                 |
 | 1.04 | 2021/03/22 | A.Melia | Added check for "Download failed and temporary file" in Exchange logs                 |
-|      |            |         | Collect data from all 'temp' folders inside ExchangePath                             |
+|      |            |         | Collect data from all 'temp' folders inside ExchangePath                              |
 |      | 2021/03/30 | A.Melia | Changed syntax for 'pnputil' so it works on 2012 and later                            |
 |      |            |         | Made sure that Environment variables are properly quoted in CSV                       |
 |      |            |         | Added a collection log entry for all event logs                                       |
@@ -65,3 +65,9 @@ Examples of the OS version as recovered from the VER command and stored in %V_OS
 | 1.07 | 2021/06/22 | A.Melia | Revised OS version check logic                                                        |
 |      |            |         | Added cab filename to closing window title                                            |
 | 1.08 | 2021/06/24 | A.Melia | Added "System: Certificate data" based on conversation with Johann                    |
+| 1.09 | 2021/07/04 | A.Melia | Tidied up use of NUL                                                                  |
+|      |            |         | Removed the 'name' field from Logparser as it is already included in the path         |
+|      |            |         | Added log entries for file metadata collection                                        |
+|      |            |         | Added the use of a 'Release' folder                                                   |
+|      |            |         | Commented out the creation of self-extracting EXE for now                             |
+|      |            |         | Simplified the logic for checking for the presence of Exchange server                 |

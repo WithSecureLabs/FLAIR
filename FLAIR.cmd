@@ -2,9 +2,9 @@
 REM =====================================================================================
 REM Work out the OS version
 REM =====================================================================================
-SET V_OS=NULL
-SET x64=
-SET DT=
+SET V_OS=NUL
+SET x64=NUL
+SET DT=NUL
 for /f "tokens=1-7" %%a in ('ver.exe') do if "[Version" EQU "%%d" (for /f "delims=. tokens=1-5" %%i in ("%%e") do SET V_OS=%%i%%j) else for /f "delims=. tokens=1-5" %%i in ("%%d") do SET V_OS=%%i%%j
 if %V_OS% EQU 500 SET V_OS=50 && REM needed because of the odd versioning of 2K
 
@@ -14,7 +14,7 @@ REM Only works on > XP so skip it if it is NT4 and assume we are admin
 REM =====================================================================================
 color 4e
 if %V_OS% GTR 51 (
-    %systemroot%\system32\Whoami.exe /priv | find "SeTakeOwnershipPrivilege" >nul && goto Main
+    %systemroot%\system32\Whoami.exe /priv | find "SeTakeOwnershipPrivilege" >NUL && goto Main
 ) ELSE (
     goto Main
 )
@@ -28,7 +28,7 @@ whoami.exe /user /nh
 ECHO.
 ECHO   Please restart under an account in the Administrators group
 ECHO.
-pause > nul
+pause > NUL
 GOTO :eof
 
 :Main
@@ -67,7 +67,7 @@ echo SHA1 > "%outputdir%\hashes.SHA1"
 if %V_OS% GTR 52 ( 
 	echo MD5 > "%outputdir%\hashes.MD5"
 	echo SHA256 > "%outputdir%\hashes.SHA256"
-	EVENTCREATE.exe /T ERROR /ID 42 /L Application /D "F-Secure FLAIR" 1>nul
+	EVENTCREATE.exe /T ERROR /ID 42 /L Application /D "F-Secure FLAIR" 1>NUL
     REM =====================================================================================
     REM Retrieve date and time in ISO8601 date format
     REM =====================================================================================
@@ -79,23 +79,26 @@ call :logme data in - "%outputdir%" on %DT%
 call :logme Running from %Store%
 :Volatile
 REM =====================================================================================
-call :logme File metadata
+call :logme     File: Metadata
 REM =====================================================================================
 ECHO                                                          This will take a while...
 ECHO                                                          =========================
 if %V_OS% GEQ 61 (
-    call :logme File USN
+    call :logme     File: USN
     FSUTIL.exe usn readjournal %SystemDrive% csv > "%outputdir%\USN_System.csv"
 )
-call :logme File SystemRoot, ProgramData and Profiles
+call :logme     File: SystemRoot
 if "%x64%" EQU "64" (
-	"%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,Name,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO '%outputdir%\LP_SysWOW64.csv' from %SystemRoot%\SysWOW64\*.*" >> "%outputdir%\_COLLECTION_LOG.TXT" 2>&1
+	"%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO '%outputdir%\LP_SysWOW64.csv' from %SystemRoot%\SysWOW64\*.*" >> "%outputdir%\_COLLECTION_LOG.TXT" 2>&1
 )
-"%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,Name,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO '%outputdir%\LP_USERPROFILE.csv' from '%USERPROFILE%\..\*.*'" >> "%outputdir%\_COLLECTION_LOG.TXT" 2>&1
-"%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,Name,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO '%outputdir%\LP_Win_temp.csv' from '%SystemRoot%\temp\*.*'" >> "%outputdir%\_COLLECTION_LOG.TXT" 2>&1
-"%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,Name,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO '%outputdir%\LP_ProgramData.csv' from '%ProgramData%\*.*'" >> "%outputdir%\_COLLECTION_LOG.TXT" 2>&1
-"%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,Name,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO '%outputdir%\LP_System32.csv' from '%SystemRoot%\System32\*.*'" >> "%outputdir%\_COLLECTION_LOG.TXT" 2>&1
-call :logme File metadata
+"%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO '%outputdir%\LP_System32.csv' from '%SystemRoot%\System32\*.*'" >> "%outputdir%\_COLLECTION_LOG.TXT" 2>&1
+call :logme     File: Profiles
+"%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO '%outputdir%\LP_USERPROFILE.csv' from '%USERPROFILE%\..\*.*'" >> "%outputdir%\_COLLECTION_LOG.TXT" 2>&1
+call :logme     File: System Temp
+"%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO '%outputdir%\LP_Win_temp.csv' from '%SystemRoot%\temp\*.*'" >> "%outputdir%\_COLLECTION_LOG.TXT" 2>&1
+call :logme     File: ProgramData
+"%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO '%outputdir%\LP_ProgramData.csv' from '%ProgramData%\*.*'" >> "%outputdir%\_COLLECTION_LOG.TXT" 2>&1
+call :logme     File: Metadata Complete
 
 REM =====================================================================================
 call :logme Network
@@ -253,7 +256,7 @@ call :logme     System: Drivers Complete -%ERRORLEVEL%-
 REM =====================================================================================
 call :logme     System: Environment
 REM =====================================================================================
-REG export HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\TimeZoneInformation "%outputdir%\Timezone.reg" /y 2>nul
+REG export HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\TimeZoneInformation "%outputdir%\Timezone.reg" /y 2>NUL
 if %V_OS% GEQ 61 (
     w32tm.exe /tz >"%outputdir%\Timezone.txt"
     bcdedit.exe /enum >"%outputdir%\bdcedit.txt"
@@ -279,40 +282,35 @@ if %V_OS% GEQ 60 (
     wevtutil.exe qe "System" /f:RenderedXml /e:System /q:"*[System[(EventID=7035 or EventID=3005 or EventID=1116 or EventID=3004 or EventID=104 or EventID=7045)]]" > "%outputdir%\Event_Logs\System.xml"
     wevtutil.exe qe "Application" /f:RenderedXml /e:Application /q:"*[Application[(EventID=1000 or EventID=1001 or EventID=1002 or EventID=257 or EventID=51 or EventID=400 or EventID=46)]]" > "%outputdir%\Event_Logs\Application.xml"
 )
-REM +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-call :logme     IoC check - ExchangeServerProxyLogon
-REM +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-set ExchangePath=
-IF EXIST %ExchangeInstallPath% (
-    set ExchangePath=%ExchangeInstallPath%
-) ELSE (
-    for /f "tokens=3*" %%b in ('reg query HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\ExchangeServer\v15\Setup /v MsiInstallPath') DO set ExchangePath=%%b %%c
-)
-call :logme     IoC ExchangeServer - "%ExchangePath%"
+set ExchangePath=NUL
+for /f "tokens=3*" %%b in ('reg query HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\ExchangeServer\v15\Setup /v MsiInstallPath') DO set ExchangePath=%%b %%c
 IF EXIST "%ExchangePath%" (
+    REM +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    call :logme     IoC ExchangeServer - "%ExchangePath%"
+    REM +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     MD "%outputdir%\ProxyLogon"
     call :logme     IoC ExchangeServer - ProxyLogon - .aspx files
-    "%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,Name,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO '%outputdir%\ProxyLogon\ProxyLogon_Exch_aspx.csv' from '%ExchangePath%*.aspx'" >>"%outputdir%\_COLLECTION_LOG.TXT" 2>&1
-    "%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,Name,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO '%outputdir%\ProxyLogon\ProxyLogon_Inetpub_aspx.csv' from '%SystemDrive%\inetpub\wwwroot\*.*'" >>"%outputdir%\_COLLECTION_LOG.TXT" 2>&1
+    "%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO '%outputdir%\ProxyLogon\ProxyLogon_Exch_aspx.csv' from '%ExchangePath%*.aspx'" >>"%outputdir%\_COLLECTION_LOG.TXT" 2>&1
+    "%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO '%outputdir%\ProxyLogon\ProxyLogon_Inetpub_aspx.csv' from '%SystemDrive%\inetpub\wwwroot\*.*'" >>"%outputdir%\_COLLECTION_LOG.TXT" 2>&1
     call :logme     IoC ExchangeServer - ProxyLogon - Temporary ASP.Net Files
     for /f "delims=@" %%a in ('dir /s /b /a:d "%windir%\Temporary ASP.NET Files"') do (
-        "%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,Name,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO STDOUT from '%%a\*.*'" >>"%outputdir%\ProxyLogon\Temporary_ASP.NET_Files.csv" 2>&1
+        "%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO STDOUT from '%%a\*.*'" >>"%outputdir%\ProxyLogon\Temporary_ASP.NET_Files.csv" 2>&1
     )
     for /f "delims=@" %%a in ('dir /s /b /a:d "%ExchangeInstallPath%\temp"') do (
-        "%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,Name,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO STDOUT from '%%a\*.*'" >>"%outputdir%\ProxyLogon\Exchange_Temps.csv" 2>&1
+        "%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO STDOUT from '%%a\*.*'" >>"%outputdir%\ProxyLogon\Exchange_Temps.csv" 2>&1
     )
     call :logme     IoC ExchangeServer - ProxyLogon - find Key IoCs in log files
-    for /f "delims=@" %%a in ('findstr /m /s /i /c:"ServerInfo~" "%ExchangePath%*.log" 2^>nul') do (
-        XCOPY.EXE /qyh "%%a" "%outputdir%\ProxyLogon" 1>nul 2>nul
+    for /f "delims=@" %%a in ('findstr /m /s /i /c:"ServerInfo~" "%ExchangePath%*.log" 2^>NUL') do (
+        XCOPY.EXE /qyh "%%a" "%outputdir%\ProxyLogon" 1>NUL 2>NUL
     )
-    for /f "delims=@" %%a in ('findstr /m /s /i /c:"Set-OabVirtualDirectory" "%ExchangePath%*.log" 2^>nul') do (
-        XCOPY.EXE /qyh "%%a" "%outputdir%\ProxyLogon" 1>nul 2>nul
+    for /f "delims=@" %%a in ('findstr /m /s /i /c:"Set-OabVirtualDirectory" "%ExchangePath%*.log" 2^>NUL') do (
+        XCOPY.EXE /qyh "%%a" "%outputdir%\ProxyLogon" 1>NUL 2>NUL
     )
-    for /f "delims=@" %%a in ('findstr /m /s /i /c:"function Page_Load(){eval(" "%ExchangePath%*.log" 2^>nul') do (
-        XCOPY.EXE /qyh "%%a" "%outputdir%\ProxyLogon" 1>nul 2>nul
+    for /f "delims=@" %%a in ('findstr /m /s /i /c:"function Page_Load(){eval(" "%ExchangePath%*.log" 2^>NUL') do (
+        XCOPY.EXE /qyh "%%a" "%outputdir%\ProxyLogon" 1>NUL 2>NUL
     )
-    for /f "delims=@" %%a in ('findstr /m /s /i /c:"Download failed and temporary file" "%ExchangePath%*.log" 2^>nul') do (
-        XCOPY.EXE /qyh "%%a" "%outputdir%\ProxyLogon" 1>nul 2>nul
+    for /f "delims=@" %%a in ('findstr /m /s /i /c:"Download failed and temporary file" "%ExchangePath%*.log" 2^>NUL') do (
+        XCOPY.EXE /qyh "%%a" "%outputdir%\ProxyLogon" 1>NUL 2>NUL
     )
 )
 REM +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
