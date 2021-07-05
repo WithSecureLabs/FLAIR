@@ -25,21 +25,21 @@ b) if there is a collision then that tells you something ;-)
 The use of FLAIR on Multiple Locales remains the same (French, German etc), it should be noted that the output from many commands will return plain text content in the locale of the machine on which it is running such as "NETSTAT -ANO":
 
 French
-'''DOS
+```DOS
 Connexions actives
 
   Proto  Adresse locale         Adresse distante       État
   TCP    0.0.0.0:25             0.0.0.0:0              LISTENING       5788
 
-'''
+```
 
 German
-'''DOS
+```DOS
 Aktive Verbindungen
 
   Proto  Lokale Adresse         Remoteadresse          Status           PID
   TCP    0.0.0.0:25             0.0.0.0:0              ABH™REN         4552
-'''
+```
 
 While the names and status fields reflect the locale of the target, the relative position remains the same. Even so when processing non-English targets it is something to consider.
 
