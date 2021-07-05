@@ -88,9 +88,12 @@ if %V_OS% GEQ 61 (
     FSUTIL.exe usn readjournal %SystemDrive% csv > "%outputdir%\USN_System.csv"
 )
 call :logme     File: SystemRoot
+"%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:0 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO '%outputdir%\LP_Systemroot.csv' from '%SystemRoot%\*.*'" >> "%outputdir%\_COLLECTION_LOG.TXT" 2>&1
 if "%x64%" EQU "64" (
+    call :logme     File: SystemRoot - SysWOW64
 	"%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO '%outputdir%\LP_SysWOW64.csv' from %SystemRoot%\SysWOW64\*.*" >> "%outputdir%\_COLLECTION_LOG.TXT" 2>&1
 )
+call :logme     File: SystemRoot - System32
 "%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO '%outputdir%\LP_System32.csv' from '%SystemRoot%\System32\*.*'" >> "%outputdir%\_COLLECTION_LOG.TXT" 2>&1
 call :logme     File: Profiles
 "%Store%Utils\LogParser.exe" -stats:OFF -oDQuotes:on -i:fs -o:csv -recurse:-1 -useLocalTime:OFF -preserveLastAccTime:ON "Select Path,HASHMD5_FILE(Path) AS Hash,Size,Attributes,CreationTime,LastAccessTime,LastWriteTime INTO '%outputdir%\LP_USERPROFILE.csv' from '%USERPROFILE%\..\*.*'" >> "%outputdir%\_COLLECTION_LOG.TXT" 2>&1

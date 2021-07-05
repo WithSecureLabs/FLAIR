@@ -71,3 +71,4 @@ Examples of the OS version as recovered from the VER command and stored in %V_OS
 |      |            |         | Added the use of a 'Release' folder                                                   |
 |      |            |         | Commented out the creation of self-extracting EXE for now                             |
 |      |            |         | Simplified the logic for checking for the presence of Exchange server                 |
+|      |            |         | Added 'Windows' folder to Logparser collection without recursion                      |
